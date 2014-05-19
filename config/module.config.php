@@ -5,7 +5,7 @@ namespace EventList;
 return array(
     'controllers' => array(
         'invokables' => array(
-            'EventList\Controller\EventList' => 'EventList\Controller\EventListController',
+            'EventList\Controller\Index' => 'EventList\Controller\IndexController',
         ),
     ),
 
@@ -20,8 +20,8 @@ return array(
                 'options' => array(
                     'route' => '/event',
                     'defaults' => array(
-                        'controller'    => 'album',
-                        'action'        => 'index',
+                        'controller'    => 'EventList\Controller\Index',
+                        'action'        => 'add',
                     ),
                 ),/*
                 'may_terminate' => true,

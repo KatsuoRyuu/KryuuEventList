@@ -93,18 +93,32 @@ class Event {
     private $description;
 
     /**
-     * @Annotation\Type("Zend\Form\Element\DateTime")
+     * @Annotation\Type("Zend\Form\Element\Date")
      * @Annotation\Flags({"priority": 500})
-     * @ Annotation\Required({"required":"true" })
+     * @Annotation\Required({"required":"true" })
      * @Annotation\Filter({"name":"StripTags"})
-     * @ Annotation\Validator({"name":"EmailAddress"})
-     * @Annotation\Options({"label":"Message:"})
+     * @Annotation\Validator({"name":"Date"})
+     * @Annotation\Options({"label":"Date:","format":"d-m-y"})
      * @Annotation\Attributes({"required": true,"placeholder": "Message ... "})
      * 
      * @ORM\Column(type="integer")
      * @var String
      */
     private $date;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Time")
+     * @Annotation\Flags({"priority": 500})
+     * @Annotation\Required({"required":"true" })
+     * @Annotation\Filter({"name":"StripTags"})
+     * @ Annotation\Validator({"name":"Time"})
+     * @Annotation\Options({"label":"Time:","format":"TH:iP"})
+     * @Annotation\Attributes({"required": true,"placeholder": "Message ... "})
+     * 
+     * @ORM\Column(type="integer")
+     * @var String
+     */
+    private $time;
 
     /**
      * WARNING USING THESE IS NOT SAFE. there is no checking on the data and you need to know what

@@ -87,7 +87,7 @@ class Event {
      * @Annotation\Options({"label":"Subject:"})
      * @Annotation\Attributes({"required": true,"placeholder": "Subject ... "})
      * 
-     * @ORM\Column(type="textarea")
+     * @ORM\Column(type="text")
      * @var String
      */
     private $description;

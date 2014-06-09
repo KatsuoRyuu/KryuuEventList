@@ -42,6 +42,8 @@ namespace EventList\Controller;
 
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mail\Transport\SmtpOptions;
 
 class EntityUsingController extends AbstractActionController
 {
@@ -60,6 +62,11 @@ class EntityUsingController extends AbstractActionController
 	* @var configuration
 	*/
 	protected $configuration;
+
+	/**
+	* @var MailTransport
+	*/
+	protected $transport;
 	
 	/**
 	* Sets the EntityManager
@@ -98,8 +105,8 @@ class EntityUsingController extends AbstractActionController
 	* @access protected
 	* @return PostController
 	*/
-	protected function setBaseNamespace($space)
-	{
+	protected function setBaseNamespace($space)	{
+        
         $space = explode('\\',$space);
 		$this->baseNamespace = $space[0];
 		return $this;
@@ -114,13 +121,13 @@ class EntityUsingController extends AbstractActionController
 	 * @access protected
      * @return String
 	 */
-	protected function getBaseNamespace()
-	{
+	protected function getBaseNamespace() {
         
 		if (null === $this->baseNamespace) {
 			$this->setBaseNamespace(__NAMESPACE__);
 		}
-		return $this->baseNamespace;
+        
+        return $this->baseNamespace;
 	}
     
 	/**
@@ -129,9 +136,9 @@ class EntityUsingController extends AbstractActionController
 	* @access protected
 	* @return PostController
 	*/
-	protected function setConfiguration()
-	{
-        $this->configuration = $this->serviceLocator->get('config')[$this->getBaseNamespace()]['config'];
+	protected function setConfiguration() {
+        $tmpConfig = $this->getServiceLocator()->get('config');
+        $this->configuration = $tmpConfig[$this->getBaseNamespace()]['config'];
 		return $this;
 	}
 	
@@ -153,13 +160,70 @@ class EntityUsingController extends AbstractActionController
 	 * @access protected
      * @return String or array.
 	 */
-	protected function getConfiguration($searchString)
-	{
+	protected function getConfiguration($searchString,$global=false)	{
         
 		if (null === $this->configuration) {
 			$this->setConfiguration();
 		}
+        
+        if($global){
+            $tmp = $this->getServiceLocator()->get('config');
+            return $tmp[$searchString];
+        }
+        
 		return $this->configuration[$searchString];
+	}
+    
+    
+    
+	/**
+	* Sets the configuration for later easier access
+	*
+	* @access protected
+	* @return PostController
+	*/
+	protected function setMailTransport() {
+
+        $config = $this->getConfiguration('mailTransport');
+        
+        $this->transport = new SmtpTransport();
+        $options   = new SmtpOptions(array(
+            'name'              => ['name'],
+            'host'              => $config['host'],
+            'connection_class'  => $config['connection_class'],
+            'connection_config' => array(
+                'username' => $config['connection_config']['username'],
+                'password' => $config['connection_config']['password'],
+            ),
+        ));
+        $this->transport->setOptions($options);
+        return $this->transport;
+	}
+	
+	/**
+	 * Returns the configuration
+	 *
+	 * Fetches the string of the base configuration name ex
+     * array(
+     *      test => someconfig,
+     *      foo  => array(
+     *           foobar => barfoo,
+     *           ),
+     *      );
+     * 
+     * getConfiguration(test) returns string(someconfig)
+     * getConfiguration(foo)  returns array(foobar => barfoo)
+	 *
+     * @param String $searchString the name of the base configuration
+	 * @access protected
+     * @return String or array.
+	 */
+	protected function getMailTransport()	{
+        
+		if (null === $this->transport) {
+			$this->setConfiguration();
+		}
+		return $this->transport;
 	}
     
 } 

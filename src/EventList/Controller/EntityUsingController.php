@@ -1,6 +1,7 @@
 <?php
 namespace KryuuEventList\Controller;
 
+
 /**
  * @encoding UTF-8
  * @note *
@@ -140,8 +141,8 @@ class EntityUsingController extends Constants
     protected function translate($string){
 		$this->setConfigService();
 		return $this->service->translate($string);
-	}
-    
+        }
+        
     private function setConfigService(){
         if (!$this->service){
             $this->service = $this->getServiceLocator()->get(static::CONFIG_SERVICE_FACTORY);

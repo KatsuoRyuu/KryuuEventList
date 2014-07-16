@@ -60,7 +60,7 @@ class EntityUsingController extends Constants
 		$this->setConfigService();
 		return $this->service->entityManager;
     }
-	
+    
 	/**
 	 * Returns the base namespace
 	 *
@@ -73,8 +73,8 @@ class EntityUsingController extends Constants
 	protected function getBaseNamespace() {
         $this->setConfigService();
         return $this->service->getBaseNamespace();
-	}
-	
+		}
+        
 	/**
 	 * Returns the configuration
 	 *
@@ -119,8 +119,8 @@ class EntityUsingController extends Constants
 	protected function getMailTransport()	{
         $this->setConfigService();
 		return $this->service->transport();
-	}
-    
+		}
+        
     /**
      * 
      * @return eventmanager

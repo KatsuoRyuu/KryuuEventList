@@ -1,6 +1,6 @@
 <?php
-namespace KryuuEventList\Controller;
 
+namespace KryuuAccountAddress\Controller\Plugin;
 
 /**
  * @encoding UTF-8
@@ -24,7 +24,7 @@ namespace KryuuEventList\Controller;
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  * Ryuu Technology shall be visible and readable to anyone using the software 
- * and shall be written in one of the following ways: ?????????, Ryuu Technology 
+ * and shall be written in one of the following ways: 竜技術, Ryuu Technology 
  * or by using the company logo.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -36,56 +36,30 @@ namespace KryuuEventList\Controller;
  * THE SOFTWARE.
  *
 
- * @version 20140506 
+ * @version 20140621 
  * @link https://github.com/KatsuoRyuu/
  */
+use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use KryuuAccountAddress\Service\AddressServiceFactory;
 
-use Zend\View\Model\ViewModel;
-use Zend\Form\Annotation\AnnotationBuilder;
-
-class IndexController extends EntityUsingController
+class UserAddress extends AbstractPlugin
 {
-		
-    public function indexAction()
+    
+    protected $addressService=null;
+
+    /**
+     * Proxy convenience method
+     *
+     * @return bool
+     */
+    public function get()
     {
-        
-        return new ViewModel();
+        return $this->addressService->get();
     }
     
-    public function addAction(){
-        
-        return $this->editAction();
-        
+    public function setAddressService(AddressServiceFactory $service){
+        $this->addressService = $service;
     }
-    
-    public function editAction(){
-        
-        $event = new Event();
-        
-        if($this->params('id') > 0){
-            $event = $this->entityManager()->getRepository(static::OBJ_EVENT)->findOneBy(array('id'=>$this->params('id')));
-        }
-        
-        $builder = new AnnotationBuilder();
-        $form = $builder->createForm($event);
-        $form->bind($event);
-        
-        $request = $this->getRequest();
-        
-        if ($request->isPost()){
-            $form->bind($event);
-            $form->setData($request->getPost());
-            if ($form->isValid()){
-                $this->entityManager()->persist($event);
-                $this->entityManager()->flush();
-            }
-        }
-        
-        
-    }
-   
-    
-    public function deleteAction(){
-        
-    }
+
 }
+

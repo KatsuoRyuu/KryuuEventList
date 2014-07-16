@@ -1,29 +1,33 @@
 <?php
 
-namespace EventList;
+namespace KryuuEventList;
 
 return array(
+    __NAMESPACE__ => array(
+    ),
+
     'controllers' => array(
         'invokables' => array(
-            'EventList\Controller\Index' => 'EventList\Controller\IndexController',
+            'KryuuEventList\Controller\Index' => 'KryuuEventList\Controller\IndexController',
         ),
     ),
 
     /*
      * Routing Example
      */
-    
+
+    /*
     'router' => array(
         'routes' => array(
-            'event' => array(
+            'album' => array(
                 'type'    => 'literal',
                 'options' => array(
-                    'route' => '/event',
+                    'route' => '/album',
                     'defaults' => array(
-                        'controller'    => 'EventList\Controller\Index',
-                        'action'        => 'add',
+                        'controller'    => 'album',
+                        'action'        => 'index',
                     ),
-                ),/*
+                ),
                 'may_terminate' => true,
                 'child_routes' => array(
                     'album' => array(
@@ -49,11 +53,11 @@ return array(
                             ),
                         ),
                     ),
-                ),*/
+                ),
             ),
         ),
     ),
-    
+    */
 
     'doctrine'=> array(
         'driver' => array(
@@ -69,9 +73,26 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            __NAMESPACE__.'\Config'                   => __NAMESPACE__.'\Service\ConfigServiceFactory',
+            __NAMESPACE__.'\GlobalConfig'             => __NAMESPACE__.'\Service\GlobalConfigServiceFactory',
+            __NAMESPACE__.'\AddressServiceFactory'    => __NAMESPACE__.'\Service\AddressServiceFactory',
+        ),
+        'invokables'  => array(
+            //'BjyAuthorize\View\RedirectionStrategy' => 'BjyAuthorize\View\RedirectionStrategy',
+        ),
+        'aliases'     => array(
+            //'bjyauthorize_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+        ),
+        'initializers' => array(
+            //'BjyAuthorize\Service\AuthorizeAwareServiceInitializer'
+            //    => 'BjyAuthorize\Service\AuthorizeAwareServiceInitializer'
+        ),
+    ),
     'view_manager' => array(
         'template_path_stack' => array(
-            'eventlist' => __DIR__ . '/../view',
+            'kryuueventlist' => __DIR__ . '/../view',
         ),
     ),
 );

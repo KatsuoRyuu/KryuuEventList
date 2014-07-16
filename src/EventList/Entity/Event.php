@@ -119,7 +119,29 @@ class Event {
      * @var String
      */
     private $time;
-
+    
+    /**
+     * @Annotation\Exclude()
+     * @ Annotation\Type("Zend\Form\Element\File")
+     * @ Annotation\Flags({"priority": 300})
+     * @ Annotation\Required({"required":false })
+     * @ Annotation\Filter({"name":"StringTrim","filerenameupload":{"target": "./img","randomize":true}})
+     * @ Annotation\Filter({"name":"StripTags"})
+     * @ Annotation\Validator({"name":"StringLength"})
+     * @ Annotation\Options({"label":"File:"})
+     * @ Annotation\Attributes({"required": false})
+     * 
+     *
+     * @ORM\ManyToMany(targetEntity="FileRepository\Entity\File")
+     * @ORM\JoinTable(name="contact_message_file_linker",
+     *      joinColumns={@ORM\JoinColumn(name="message_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id")}
+     *      )
+     * @var String
+     */
+    private $file;
+    
+    
     /**
      * WARNING USING THESE IS NOT SAFE. there is no checking on the data and you need to know what
      * you are doing when using these.

@@ -1,5 +1,6 @@
 <?php
-namespace KryuuEventList\Controller;
+
+namespace KryuuEventList\Service;
 
 /**
  * @encoding UTF-8
@@ -39,15 +40,66 @@ namespace KryuuEventList\Controller;
  * @link https://github.com/KatsuoRyuu/
  */
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class EntityUsingController extends Constants
-{
-    const CONFIG_SERVICE_FACTORY="KryuuEventList\GlobalConfig";
-    
+/**
+ * 
+ */
+class ConfigServiceFactory implements FactoryInterface {
+     
     private $service;
+
+    private $baseNamespace;
     
     /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator) {
+        $configService = $this->getBaseNamespace().'\GlobalConfig';
+        $tmpConfig = $serviceLocator->get('config');
+        if (isset($tmpConfig['GlobalConfigurationService'])){
+            $configService = $serviceLocator->get('config');
+        }
+        
+        $this->service = $serviceLocator->get($configService);
+
+        return $this;
+    }	
+    
+	public function get($search=null,$global=false) {
+        return $this->service->getConfiguration($search,$global,$this->getBaseNamespace());
+    }
+	
+	/**
+	 * Returns the configuration
+	 *
+	 * Fetches the string of the base configuration name ex
+     * array(
+     *      test => someconfig,
+     *      foo  => array(
+     *           foobar => barfoo,
+     *           ),
+     *      );
+     * 
+     * getConfiguration(test) returns string(someconfig)
+     * getConfiguration(foo)  returns array(foobar => barfoo)
+	 *
+     * @param String $searchString the name of the base configuration
+	 * @access protected
+     * @return String or array.
+	 */
+	public function getMailTransport() {
+		return $this->service->getMailTransport();
+	}
+    
+    public function getMailMessage() {
+        return $this->service->getMailMessage();
+    }
+	
+	/**
 	* Returns the EntityManager
 	*
 	* Fetches the EntityManager from ServiceLocator if it has not been initiated
@@ -56,10 +108,24 @@ class EntityUsingController extends Constants
 	* @access protected
 	* @return DoctrineORMModule\Service\EntityManagerAliasCompatFactory
 	*/
-	protected function entityManager(){
-		$this->setConfigService();
-		return $this->service->entityManager;
-    }
+	public function entityManager()	{
+		return $this->service->entityManager();
+	}
+    
+    
+	/**
+	* Sets the base namespace
+	*
+	* @param string $space
+	* @access protected
+	* @return PostController
+	*/
+	protected function setBaseNamespace($space)	{
+        
+        $space = explode('\\',$space);
+		$this->baseNamespace = $space[0];
+		return $this;
+	}
 	
 	/**
 	 * Returns the base namespace
@@ -71,80 +137,24 @@ class EntityUsingController extends Constants
      * @return String
 	 */
 	protected function getBaseNamespace() {
-        $this->setConfigService();
-        return $this->service->getBaseNamespace();
-	}
-	
-	/**
-	 * Returns the configuration
-	 *
-	 * Fetches the string of the base configuration name ex
-     * array(
-     *      test => someconfig,
-     *      foo  => array(
-     *           foobar => barfoo,
-     *           ),
-     *      );
-     * 
-     * getConfiguration(test) returns string(someconfig)
-     * getConfiguration(foo)  returns array(foobar => barfoo)
-	 *
-     * @param String $searchString the name of the base configuration
-	 * @access protected
-     * @return String or array.
-	 */
-	protected function configuration($searchString,$global=false)	{
-        $this->setConfigService();
-		return $this->service->get($searchString,$global);
-	}
-	
-	/**
-	 * Returns the configuration
-	 *
-	 * Fetches the string of the base configuration name ex
-     * array(
-     *      test => someconfig,
-     *      foo  => array(
-     *           foobar => barfoo,
-     *           ),
-     *      );
-     * 
-     * getConfiguration(test) returns string(someconfig)
-     * getConfiguration(foo)  returns array(foobar => barfoo)
-	 *
-     * @param String $searchString the name of the base configuration
-	 * @access protected
-     * @return String or array.
-	 */
-	protected function getMailTransport()	{
-        $this->setConfigService();
-		return $this->service->transport();
+        
+		if (null === $this->baseNamespace) {
+			$this->setBaseNamespace(__NAMESPACE__);
+		}
+        
+        return $this->baseNamespace;
 	}
     
     /**
      * 
      * @return eventmanager
      */
-    protected function events() {
-		$this->setConfigService();
-        return $this->service->events();
-    }
-    
-    /**
-     * Will check if the translator is avaiable if not then get it from the service 
-     * locator and do the translation. Then return the translated string
-     * 
-     * @param type $string
-     * @return string
-     */
-    protected function translate($string){
-		$this->setConfigService();
-		return $this->service->translate($string);
-	}
-    
-    private function setConfigService(){
-        if (!$this->service){
-            $this->service = $this->getServiceLocator()->get(static::CONFIG_SERVICE_FACTORY);
+    protected function events($class) 
+    {
+        if (!$this->events) {
+            $this->events = new EventManager($class); 
         }
+
+        return $this->events;
     }
-} 
+}

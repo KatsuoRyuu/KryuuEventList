@@ -1,5 +1,5 @@
 <?php
-namespace EventList;
+namespace KryuuEventList;
 
 class Module
 {

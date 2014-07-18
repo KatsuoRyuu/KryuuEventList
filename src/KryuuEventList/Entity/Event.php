@@ -1,6 +1,6 @@
 <?php
 
-namespace EventList\Entity;
+namespace KryuuEventList\Entity;
 
 /**
  * @encoding UTF-8

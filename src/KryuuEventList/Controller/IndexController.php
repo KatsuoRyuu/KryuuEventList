@@ -76,6 +76,7 @@ class IndexController extends EntityUsingController
             $form->bind($event);
             $form->setData($request->getPost());
             if ($form->isValid()){
+                $event->__add($this->storeFile($request->getFiles()), 'file');
                 $this->entityManager()->persist($event);
                 $this->entityManager()->flush();
             }
@@ -86,6 +87,16 @@ class IndexController extends EntityUsingController
    
     
     public function deleteAction(){
+        // Initialize vars
+        $event = null;
         
+        // Method start:
+        if ($this->params('id') > 0){
+            $event = $this->entityManager()->getRepository();            
+        }
+        if ($event){
+            $this->entityManager()->remove($event);
+            $this->entityManager()->flush();
+        }
     }
 }

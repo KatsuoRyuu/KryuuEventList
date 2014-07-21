@@ -76,7 +76,7 @@ class IndexController extends EntityUsingController
             $form->bind($event);
             $form->setData($request->getPost());
             if ($form->isValid()){
-                $event->__add($this->storeFile($request->getFiles()), 'file');
+                $event->set($this->storeFile($request->getFiles()), 'image');
                 $this->entityManager()->persist($event);
                 $this->entityManager()->flush();
             }

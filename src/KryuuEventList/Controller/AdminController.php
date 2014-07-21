@@ -43,19 +43,60 @@ namespace KryuuEventList\Controller;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 
-class IndexController extends EntityUsingController
-{
-		
-		
+class AdminController extends EntityUsingController
+{ 
     public function indexAction()
     {
-        $viewModel = new ViewModel();
         
-        $viewModel->setVariables(array());
         return new ViewModel();
     }
     
-    public function nextEventAction(){
-        return new ViewModel();
-    } 
+    public function addAction(){
+        
+        return $this->editAction();
+        
+    }
+    
+    public function editAction(){
+        
+        $event = new Event();
+        
+        if($this->params('id') > 0){
+            $event = $this->entityManager()->getRepository(static::OBJ_EVENT)->findOneBy(array('id'=>$this->params('id')));
+        }
+        
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm($event);
+        $form->bind($event);
+        
+        $request = $this->getRequest();
+        
+        if ($request->isPost()){
+            $form->bind($event);
+            $form->setData($request->getPost());
+            if ($form->isValid()){
+                $event->set($this->storeFile($request->getFiles()), 'image');
+                $this->entityManager()->persist($event);
+                $this->entityManager()->flush();
+            }
+        }
+        
+        
+    }
+   
+    
+    public function deleteAction(){
+        // Initialize vars
+        $event = null;
+        
+        // Method start:
+        if ($this->params('id') > 0){
+            $event = $this->entityManager()->getRepository();            
+        }
+        if ($event){
+            $this->entityManager()->remove($event);
+            $this->entityManager()->flush();
+        }
+    }
+    
 }

@@ -9,47 +9,30 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'KryuuEventList\Controller\Index' => 'KryuuEventList\Controller\IndexController',
+            'KryuuEventList\Controller\Admin' => 'KryuuEventList\Controller\AdminController',
         ),
     ),
 
-    /*
-     * Routing Example
-     */
-
-    /*
     'router' => array(
         'routes' => array(
-            'album' => array(
+            'kryuu-event' => array(
                 'type'    => 'literal',
                 'options' => array(
-                    'route' => '/album',
+                    'route' => '/event',
                     'defaults' => array(
-                        'controller'    => 'album',
+                        'controller'    => 'KryuuEventList\Controller\Index',
                         'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'album' => array(
-                        'type' => 'literal',
+                    'next-event' => array(
+                        'type'    => 'literal',
                         'options' => array(
-                            'route' => '/',
+                            'route' => '/next',
                             'defaults' => array(
-                                'controller' => 'album',
-                                'action' => 'index',
-                            ),
-                        ),
-                    ),
-                    'add' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Segment',
-                        'options' => array(
-                            'route' => '/add[/:id]',
-                            'constraints' => array(
-                                'id' => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'album/add',
-                                'action' => 'add',
+                                'controller'    => 'KryuuEventList\Controller\Index',
+                                'action'        => 'nextEvent',
                             ),
                         ),
                     ),
@@ -57,7 +40,6 @@ return array(
             ),
         ),
     ),
-    */
 
     'doctrine'=> array(
         'driver' => array(

@@ -56,6 +56,28 @@ class IndexController extends EntityUsingController
     }
     
     public function nextEventAction(){
+        
+        $event = $this->getNextEvent();
+        
         return new ViewModel();
-    } 
+    }
+    
+    private function getNextEvent() {
+        $maxResults = '1';
+        # Starting the Query Builder.
+        $qb = $this->entityManager()->createQueryBuilder();
+        $qb->select('m.date')
+                ->from('KryuuEventList\Entity\Event', 'm')
+                ->where('m.date >= :date')
+                //->orderBy('m.id','DESC')
+                ->setMaxResults( $maxResults )
+                //->setFirstResult( '?3' )
+                ->setParameter('date',time())
+                //->setParameter('max_result',$maxResults)
+                //->setParameter(2,$itemsPerPage)
+                //->setParameter(3,$offset)
+                ->getQuery();
+        
+        return $qb->getQuery()->getArrayResult();
+    }
 }

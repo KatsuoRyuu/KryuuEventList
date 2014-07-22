@@ -41,6 +41,7 @@ namespace KryuuEventList\Controller;
  */
 
 use Zend\Mvc\Controller\AbstractActionController;
+use DoctrineORMModule\Service\EntityManagerAliasCompatFactory;
 
 class EntityUsingController extends Constants
 {
@@ -59,7 +60,7 @@ class EntityUsingController extends Constants
 	*/
 	protected function entityManager(){
 		$this->setConfigService();
-		return $this->service->entityManager;
+		return $this->service->entityManager();
     }
     
 	/**

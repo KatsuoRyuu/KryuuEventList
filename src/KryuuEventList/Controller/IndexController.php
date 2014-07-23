@@ -55,11 +55,25 @@ class IndexController extends EntityUsingController
         return new ViewModel();
     }
     
+    /**
+     * getting the view for a single event 
+     * can be used for child implementation.
+     * @return \Zend\View\Model\ViewModel
+     */
     public function nextEventAction(){
+        /**
+         * Setting the basic viewModel
+         */
+        $viewModel = new ViewModel();
         
+        // getting the event
         $event = $this->getNextEvent();
         
-        return new ViewModel();
+        //setting variables
+        $viewModel->setVariables(array(
+           'event' => $event, 
+        ));
+        return $viewModel;
     }
     
     private function getNextEvent() {

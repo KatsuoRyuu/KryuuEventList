@@ -46,12 +46,30 @@ use Zend\Form\Annotation\AnnotationBuilder;
 class IndexController extends EntityUsingController
 {
 		
-		
-    public function indexAction()
-    {
+	/**
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */	
+    public function indexAction(){
+        /**
+         * Setting the basic viewModel.
+         */
         $viewModel = new ViewModel();
+        $entityManager = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $repository = $entityManager->getRepository('Admin\Entity\SystemUser');
+        $adapter = new DoctrineAdapter(new ORMPaginator($repository->createQueryBuilder('user')));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);
+
+        $page = (int) $this->params()->fromQuery('page');
         
-        $viewModel->setVariables(array());
+        if($page) { 
+            $paginator->setCurrentPageNumber($page);
+        }
+
+        $viewModel->setVariables(array(
+            'paginator' => $paginator,
+        ));
         return new ViewModel();
     }
     

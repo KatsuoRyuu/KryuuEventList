@@ -18,7 +18,10 @@ return array(
             'kryuu-event' => array(
                 'type'    => 'literal',
                 'options' => array(
-                    'route' => '/event',
+                    'route' => '/event[/:page]',
+                    'constraints' => array(
+                        'page' => '[0-9]+',
+                    ),
                     'defaults' => array(
                         'controller'    => 'KryuuEventList\Controller\Index',
                         'action'        => 'index',

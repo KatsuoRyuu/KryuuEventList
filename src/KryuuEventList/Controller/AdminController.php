@@ -42,22 +42,26 @@ namespace KryuuEventList\Controller;
 
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
+use KryuuEventList\Entity\Event;
 
 class AdminController extends EntityUsingController
 { 
-    public function indexAction()
-    {
+    public function indexAction() {
         
         return new ViewModel();
     }
     
-    public function addAction(){
+    public function addAction() {
         
         return $this->editAction();
         
     }
     
-    public function editAction(){
+    public function editAction() {
+        /**
+         * Setting basic ViewModel
+         */
+        $viewModel = new ViewModel();
         
         $event = new Event();
         
@@ -81,7 +85,12 @@ class AdminController extends EntityUsingController
             }
         }
         
+        $viewModel->setVariables(array(
+            'form'  => $form,
+            'url'   => static::ROUTE_ADD,
+        ));
         
+        return $viewModel;
     }
    
     

@@ -46,7 +46,7 @@ class Constants extends AbstractActionController {
     
     const OBJ_EVENT = 'KryuuEventList\Entity\Event';
     
-    const ROUTE_ADD         = 'kryuu-event\add';
-    const ROUTE_ADD_FAILED  = 'kryuu-event\add';
+    const ROUTE_ADD         = 'kryuu-event/add';
+    const ROUTE_ADD_FAILED  = 'kryuu-event/add';
     
 }

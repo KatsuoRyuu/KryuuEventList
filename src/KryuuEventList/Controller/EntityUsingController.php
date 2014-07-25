@@ -142,7 +142,7 @@ class EntityUsingController extends Constants
     protected function translate($string){
 		$this->setConfigService();
 		return $this->service->translate($string);
-        }
+    }
         
     private function setConfigService(){
         if (!$this->service){

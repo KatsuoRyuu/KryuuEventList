@@ -66,6 +66,11 @@ class GlobalConfigServiceFactory implements FactoryInterface{
 	 * @var MailTransport
 	 */
 	protected $transport;
+
+	/**
+	 * @var Translator
+	 */
+	protected $translate;
 	
     /**
      *
@@ -353,7 +358,7 @@ class GlobalConfigServiceFactory implements FactoryInterface{
      * @param type $string
      * @return string
      */
-    protected function translate($string)
+    public function translate($string)
 	{
 		if ($this->translate == NULL)
 		{

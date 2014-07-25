@@ -53,8 +53,11 @@ class AdminController extends EntityUsingController
     
     public function addAction() {
         
-        return $this->editAction();
+        $viewModel = $this->editAction();
         
+        $viewModel->setVariable('headline', $this->translate('Add new event:'));
+        
+        return $viewModel;
     }
     
     public function editAction() {
@@ -86,8 +89,9 @@ class AdminController extends EntityUsingController
         }
         
         $viewModel->setVariables(array(
-            'form'  => $form,
-            'url'   => static::ROUTE_ADD,
+            'form'      => $form,
+            'url'       => static::ROUTE_ADD,
+            'headline'  => $this->translate('Edit event:'),
         ));
         
         return $viewModel;

@@ -25,6 +25,7 @@ return array(
                     'defaults' => array(
                         'controller'    => 'KryuuEventList\Controller\Index',
                         'action'        => 'index',
+                        'page'          => '10',
                     ),
                 ),
                 'may_terminate' => true,

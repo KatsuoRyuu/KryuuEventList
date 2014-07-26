@@ -48,5 +48,6 @@ class Constants extends AbstractActionController {
     
     const ROUTE_ADD         = 'kryuu-event/add';
     const ROUTE_ADD_FAILED  = 'kryuu-event/add';
+    const ROUTE_ADMIN       = 'kryuu-event/admin';
     
 }

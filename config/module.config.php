@@ -15,6 +15,9 @@ return array(
 
     'router' => array(
         'routes' => array(
+            /*
+             * Base route
+             */
             'kryuu-event' => array(
                 'type'    => 'literal',
                 'options' => array(
@@ -30,13 +33,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'next-event' => array(
+                    /*
+                     * Administration of the module.
+                     */
+                    'admin' => array(
                         'type'    => 'literal',
                         'options' => array(
-                            'route' => '/next',
+                            'route' => '/add',
                             'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Index',
-                                'action'        => 'nextEvent',
+                                'controller'    => 'KryuuEventList\Controller\Admin',
+                                'action'        => 'add',
                             ),
                         ),
                     ),
@@ -47,6 +53,19 @@ return array(
                             'defaults' => array(
                                 'controller'    => 'KryuuEventList\Controller\Admin',
                                 'action'        => 'add',
+                            ),
+                        ),
+                    ),
+                    /*
+                     * Main routes.
+                     */
+                    'next-event' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route' => '/next',
+                            'defaults' => array(
+                                'controller'    => 'KryuuEventList\Controller\Index',
+                                'action'        => 'nextEvent',
                             ),
                         ),
                     ),

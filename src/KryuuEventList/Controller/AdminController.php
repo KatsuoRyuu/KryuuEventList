@@ -47,6 +47,19 @@ use KryuuEventList\Entity\Event;
 class AdminController extends EntityUsingController
 { 
     public function indexAction() {
+        /*
+         * Basic Viewmodel
+         */
+        $viewModel = new ViewModel();
+        
+        $events = $this->entityManager()->getRepository(static::OBJ_EVENT)->findAll();
+        
+        $viewModel->setVariables(array(
+            'events'    => $events,
+            'addUrl'    => static::ROUTE_ADD,
+            'deleteUrl' => static::ROUTE_DELETE,
+            'editUrl'   => static::ROUTE_EDIT,
+        ));
         
         return new ViewModel();
     }

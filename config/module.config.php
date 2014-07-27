@@ -56,6 +56,26 @@ return array(
                             ),
                         ),
                     ),
+                    'edit' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route' => '/edit',
+                            'defaults' => array(
+                                'controller'    => 'KryuuEventList\Controller\Admin',
+                                'action'        => 'edit',
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route' => '/delete',
+                            'defaults' => array(
+                                'controller'    => 'KryuuEventList\Controller\Admin',
+                                'action'        => 'delete',
+                            ),
+                        ),
+                    ),
                     /*
                      * Main routes.
                      */

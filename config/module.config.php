@@ -42,7 +42,7 @@ return array(
                             'route' => '/add',
                             'defaults' => array(
                                 'controller'    => 'KryuuEventList\Controller\Admin',
-                                'action'        => 'add',
+                                'action'        => 'index',
                             ),
                         ),
                     ),

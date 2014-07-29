@@ -59,7 +59,10 @@ return array(
                     'edit' => array(
                         'type'    => 'literal',
                         'options' => array(
-                            'route' => '/edit',
+                            'route' => '/edit[/:id]',
+                            'constraints' => array(
+                                'id'=>'[0-9]+',
+                            ),
                             'defaults' => array(
                                 'controller'    => 'KryuuEventList\Controller\Admin',
                                 'action'        => 'edit',
@@ -69,7 +72,10 @@ return array(
                     'delete' => array(
                         'type'    => 'literal',
                         'options' => array(
-                            'route' => '/delete',
+                            'route' => '/delete[/:id]',
+                            'constraints' => array(
+                                'id'=>'[0-9]+',
+                            ),
                             'defaults' => array(
                                 'controller'    => 'KryuuEventList\Controller\Admin',
                                 'action'        => 'delete',

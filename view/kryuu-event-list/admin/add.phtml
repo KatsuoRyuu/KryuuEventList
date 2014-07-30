@@ -34,22 +34,22 @@ $form->add(array(
     'name'=> 'submit',
     'type'=> 'Zend\Form\Element\Submit',
     'attributes'=> array(
-        'value'=> 'Submit',
+        'value'=> $this->translate('Add'),
         'required'=> 'false',
         ),
     )
 );
 
 
+$form->prepare();
+
 ?>
 
 <div style="float:left;">
     <h2><?= $this->translate($headline) ?></h2>
 
-    <?php
-        $form->prepare();
-        echo $this->ztbForm($form);
-    ?>
+    <?= $this->ztbForm($form);  ?>
+    
 </div>
 <div style="float:right;">
     <div id="map_canvas"></div>

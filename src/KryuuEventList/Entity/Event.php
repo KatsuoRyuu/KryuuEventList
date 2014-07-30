@@ -48,11 +48,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Annotation\Name("event")
  * @Annotation\Hydrator("Zend\Stdlib\Hydrator\ObjectProperty")
  * @ORM\Entity
- * @ORM\Table(name="eventlist_event")
+ * @ORM\Table(name="kryuu_eventlist_event")
  */
 class Event {
-
-
 
     /**
      * @Annotation\Exclude()

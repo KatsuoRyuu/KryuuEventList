@@ -2,7 +2,11 @@
 
 namespace KryuuEventList;
 
-return array(
+$keys = array(
+    'authorize'=>'bjyauthorize',
+);
+
+$config =  array(
     __NAMESPACE__ => array(
         'config' => array(
             'fileupload' => true,
@@ -42,7 +46,7 @@ return array(
                     'admin' => array(
                         'type'    => 'literal',
                         'options' => array(
-                            'route' => '/add',
+                            'route' => '/admin',
                             'defaults' => array(
                                 'controller'    => 'KryuuEventList\Controller\Admin',
                                 'action'        => 'index',
@@ -60,9 +64,9 @@ return array(
                         ),
                     ),
                     'edit' => array(
-                        'type'    => 'literal',
+                        'type'    => 'segment',
                         'options' => array(
-                            'route' => '/edit[/:id]',
+                            'route' => '/edit[/][:id]',
                             'constraints' => array(
                                 'id'=>'[0-9]+',
                             ),
@@ -73,7 +77,7 @@ return array(
                         ),
                     ),
                     'delete' => array(
-                        'type'    => 'literal',
+                        'type'    => 'segment',
                         'options' => array(
                             'route' => '/delete[/:id]',
                             'constraints' => array(
@@ -138,4 +142,9 @@ return array(
             'kryuueventlist' => __DIR__ . '/../view',
         ),
     ),
+   
+    $keys['authorize'] => include(__DIR__.'/authorize.config.php'),
+    
 );
+
+return $config;

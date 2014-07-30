@@ -61,14 +61,15 @@ class AdminController extends EntityUsingController
             'editUrl'   => static::ROUTE_EDIT,
         ));
         
-        return new ViewModel();
+        return $viewModel;
     }
     
     public function addAction() {
         
         $viewModel = $this->editAction();
-        
-        $viewModel->setVariable('headline', $this->translate('Add new event:'));
+        if($viewModel instanceof Zend\View\Model\ViewModel) {
+            $viewModel->setVariable('headline', $this->translate('Add new event:'));
+        }
         
         return $viewModel;
     }
@@ -99,12 +100,19 @@ class AdminController extends EntityUsingController
                 $event->__set($this->storeFile($request->getFiles()), 'image');
                 $this->entityManager()->persist($event);
                 $this->entityManager()->flush();
+                
+                // Push message to user via FlashMessenger
+                $this->flashMessenger()->addMessage($this->translate('Event saved successfully'));
+
+                // Reroute to the administration index
+                return $this->redirect()->toRoute(self::ROUTE_ADMIN);
             }
         }
         
         $viewModel->setVariables(array(
             'form'      => $form,
             'url'       => static::ROUTE_ADD,
+            'id'        => $this->params('id'),
             'headline'  => $this->translate('Edit event:'),
         ));
         
@@ -118,11 +126,17 @@ class AdminController extends EntityUsingController
         
         // Method start:
         if ($this->params('id') > 0){
-            $event = $this->entityManager()->getRepository();            
+            $event = $this->entityManager()->getRepository(static::OBJ_EVENT)->findOneBy(array('id'=>$this->params('id')));            
         }
         if ($event){
             $this->entityManager()->remove($event);
             $this->entityManager()->flush();
+            
+            // Push message to user via FlashMessenger
+            $this->flashMessenger()->addMessage($this->translate('Event deleted successfully'));
+            
+            // Reroute to the administration index
+            return $this->redirect()->toRoute(self::ROUTE_ADMIN);
         }
     }
     

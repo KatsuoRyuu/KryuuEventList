@@ -157,4 +157,9 @@ class ConfigServiceFactory implements FactoryInterface {
 
         return $this->events;
     }
+    
+    public function translate($message){
+        
+		return $this->service->translate($message);
+    }
 }

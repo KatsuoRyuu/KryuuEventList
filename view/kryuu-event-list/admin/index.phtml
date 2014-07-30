@@ -51,7 +51,7 @@
     </tr>
     <?php foreach($this->events as $event): ?>
     <tr>
-        <td>Test Event</td>
+        <td><?= $event->__get('name'); ?></td>
         <td><a href="<?= $this->url( $this->editUrl, array('id'=>$event->__get('id')) ) ?>"><img alt="Edit" src=""></a>
             <a href="<?= $this->url( $this->deleteUrl, array('id'=>$event->__get('id')) ) ?>"><img alt="Delete" src="#"></a></td>
     </tr>

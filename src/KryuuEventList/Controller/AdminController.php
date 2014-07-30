@@ -69,6 +69,7 @@ class AdminController extends EntityUsingController
         $viewModel = $this->editAction();
         if($viewModel instanceof Zend\View\Model\ViewModel) {
             $viewModel->setVariable('headline', $this->translate('Add new event:'));
+            $viewModel->setVariable('url', static::ROUTE_EDIT);
         }
         
         return $viewModel;
@@ -96,7 +97,6 @@ class AdminController extends EntityUsingController
             $form->bind($event);
             $form->setData($request->getPost());
             if ($form->isValid()){
-                
                 $event->__set($this->storeFile($request->getFiles()), 'image');
                 $this->entityManager()->persist($event);
                 $this->entityManager()->flush();
@@ -111,7 +111,7 @@ class AdminController extends EntityUsingController
         
         $viewModel->setVariables(array(
             'form'      => $form,
-            'url'       => static::ROUTE_ADD,
+            'url'       => static::ROUTE_EDIT,
             'id'        => $this->params('id'),
             'headline'  => $this->translate('Edit event:'),
         ));

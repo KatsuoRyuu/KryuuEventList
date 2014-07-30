@@ -60,7 +60,7 @@ class Event {
      * @ORM\Column(type="integer")
      * @var integer 
      */
-    private $id;
+    public $id;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Text")
@@ -74,7 +74,7 @@ class Event {
      * @ORM\Column(type="string")
      * @var String
      */
-    private $name;
+    public $name;
        
     /**
      * @Annotation\Type("Zend\Form\Element\Textarea")
@@ -88,17 +88,17 @@ class Event {
      * @ORM\Column(type="text")
      * @var String
      */
-    private $description;
+    public $description;
 
     /**
-     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Type("Zend\Form\Element\Date")
      * @Annotation\Flags({"priority": 500})
      * @Annotation\Required({"required":"true" })
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({
      *      "name":"Date", 
      *      "options":{
-     *          "format":"d-m-y",
+     *          "format":"Y-m-d",
      *          "min":"01-01-2001", 
      *          "step":"1"
      *      }
@@ -108,16 +108,16 @@ class Event {
      * })
      * @Annotation\Attributes({
      *      "required": true,
-     *      "placeholder": "01-01-2001"
+     *      "placeholder": "31-12-2001"
      * })
      * 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @var String
      */
-    private $date;
+    public $date;
 
     /**
-     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Type("Zend\Form\Element\Time")
      * @Annotation\Flags({"priority": 500})
      * @Annotation\Required({"required":"true" })
      * @Annotation\Filter({"name":"StripTags"})
@@ -125,10 +125,10 @@ class Event {
      * @Annotation\Options({"label":"Time:","format":"TH:iP"})
      * @Annotation\Attributes({"required": true,"placeholder": "12:00 "})
      * 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @var String
      */
-    private $time;
+    public $time;
     
     /**
      * @Annotation\Exclude()
@@ -145,7 +145,7 @@ class Event {
      * @ORM\OneToOne(targetEntity="FileRepository\Entity\File")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
      */  
-    private $image;
+    public $image;
     
     
     /**
@@ -154,6 +154,28 @@ class Event {
      */
     public function __construct() {
     }
+    
+    
+    /**
+     * 
+     * @param type $date
+     * @return \KryuuEventList\Entity\Event
+     */
+    public function setDate($date){
+        $this->date = $date;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDate(){
+        return $this->date;
+    }
+    
+    
+    
     
     /**
      * WARNING USING THESE IS NOT SAFE. there is no checking on the data and you need to know what
@@ -205,6 +227,7 @@ class Event {
     */
     public function getArrayCopy()
     {
+        print_r( get_object_vars($this) );
         return get_object_vars($this);
     }
 

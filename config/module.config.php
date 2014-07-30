@@ -2,9 +2,11 @@
 
 namespace KryuuEventList;
 
-$keys = array(
-    'authorize'=>'bjyauthorize',
-);
+defined('__AUTHORIZE__') or define('__AUTHORIZE__','bjyauthorize');
+
+$router     = include(__DIR__.'/router.config.php');
+$service    = include(__DIR__.'/services.config.php');
+$authorize  = include(__DIR__.'/authorize.config.php');
 
 $config =  array(
     __NAMESPACE__ => array(
@@ -12,98 +14,16 @@ $config =  array(
             'fileupload' => true,
         ),
     ),
+    __AUTHORIZE__       => $authorize,
+    
+    'router'            => $router,
+    
+    'service_manager'   => $service,
 
     'controllers' => array(
         'invokables' => array(
             'KryuuEventList\Controller\Index' => 'KryuuEventList\Controller\IndexController',
             'KryuuEventList\Controller\Admin' => 'KryuuEventList\Controller\AdminController',
-        ),
-    ),
-
-    'router' => array(
-        'routes' => array(
-            /*
-             * Base route
-             */
-            'kryuu-event' => array(
-                'type'    => 'literal',
-                'options' => array(
-                    'route' => '/event',
-                    'constraints' => array(
-                        'page' => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller'    => 'KryuuEventList\Controller\Index',
-                        'action'        => 'index',
-                        'page'          => '10',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    /*
-                     * Administration of the module.
-                     */
-                    'admin' => array(
-                        'type'    => 'literal',
-                        'options' => array(
-                            'route' => '/admin',
-                            'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Admin',
-                                'action'        => 'index',
-                            ),
-                        ),
-                    ),
-                    'add' => array(
-                        'type'    => 'literal',
-                        'options' => array(
-                            'route' => '/add',
-                            'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Admin',
-                                'action'        => 'add',
-                            ),
-                        ),
-                    ),
-                    'edit' => array(
-                        'type'    => 'segment',
-                        'options' => array(
-                            'route' => '/edit[/][:id]',
-                            'constraints' => array(
-                                'id'=>'[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Admin',
-                                'action'        => 'edit',
-                            ),
-                        ),
-                    ),
-                    'delete' => array(
-                        'type'    => 'segment',
-                        'options' => array(
-                            'route' => '/delete[/:id]',
-                            'constraints' => array(
-                                'id'=>'[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Admin',
-                                'action'        => 'delete',
-                            ),
-                        ),
-                    ),
-                    /*
-                     * Main routes.
-                     */
-                    'next-event' => array(
-                        'type'    => 'literal',
-                        'options' => array(
-                            'route' => '/next',
-                            'defaults' => array(
-                                'controller'    => 'KryuuEventList\Controller\Index',
-                                'action'        => 'nextEvent',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
         ),
     ),
 
@@ -121,30 +41,12 @@ $config =  array(
             ),
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-            __NAMESPACE__.'\Config'                   => __NAMESPACE__.'\Service\ConfigServiceFactory',
-            __NAMESPACE__.'\GlobalConfig'             => __NAMESPACE__.'\Service\GlobalConfigServiceFactory',
-        ),
-        'invokables'  => array(
-            //'BjyAuthorize\View\RedirectionStrategy' => 'BjyAuthorize\View\RedirectionStrategy',
-        ),
-        'aliases'     => array(
-            //'bjyauthorize_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
-        ),
-        'initializers' => array(
-            //'BjyAuthorize\Service\AuthorizeAwareServiceInitializer'
-            //    => 'BjyAuthorize\Service\AuthorizeAwareServiceInitializer'
-        ),
-    ),
     'view_manager' => array(
         'template_path_stack' => array(
             'kryuueventlist' => __DIR__ . '/../view',
         ),
     ),
-   
-    $keys['authorize'] => include(__DIR__.'/authorize.config.php'),
-    
+       
 );
 
 return $config;

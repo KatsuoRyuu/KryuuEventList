@@ -153,8 +153,6 @@ class Event {
      * 
      */
     public function __construct() {
-        $this->about = new ArrayCollection();
-        $this->file = new ArrayCollection();
     }
     
     /**

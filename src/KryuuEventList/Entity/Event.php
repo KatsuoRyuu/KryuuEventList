@@ -93,13 +93,25 @@ class Event {
     private $description;
 
     /**
-     * @Annotation\Type("Zend\Form\Element\Date")
+     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Flags({"priority": 500})
      * @Annotation\Required({"required":"true" })
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Validator({"name":"Date"})
-     * @Annotation\Options({"label":"Date:","format":"d-m-y"})
-     * @Annotation\Attributes({"required": true,"placeholder": "Message ... "})
+     * @Annotation\Validator({
+     *      "name":"Date", 
+     *      "options":{
+     *          "format":"d-m-y",
+     *          "min":"01-01-2001", 
+     *          "step":"1"
+     *      }
+     * })
+     * @Annotation\Options({
+     *      "label":"Date:"
+     * })
+     * @Annotation\Attributes({
+     *      "required": true,
+     *      "placeholder": "01-01-2001"
+     * })
      * 
      * @ORM\Column(type="integer")
      * @var String
@@ -107,13 +119,13 @@ class Event {
     private $date;
 
     /**
-     * @Annotation\Type("Zend\Form\Element\Time")
+     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Flags({"priority": 500})
      * @Annotation\Required({"required":"true" })
      * @Annotation\Filter({"name":"StripTags"})
      * @ Annotation\Validator({"name":"Time"})
      * @Annotation\Options({"label":"Time:","format":"TH:iP"})
-     * @Annotation\Attributes({"required": true,"placeholder": "Message ... "})
+     * @Annotation\Attributes({"required": true,"placeholder": "12:00 "})
      * 
      * @ORM\Column(type="integer")
      * @var String

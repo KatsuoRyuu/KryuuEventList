@@ -45,7 +45,7 @@ use DoctrineORMModule\Service\EntityManagerAliasCompatFactory;
 
 class EntityUsingController extends Constants
 {
-    const CONFIG_SERVICE_FACTORY="KryuuEventList\GlobalConfig";
+    const CONFIG_SERVICE_FACTORY="KryuuEventList\Config";
     
     private $service;
     

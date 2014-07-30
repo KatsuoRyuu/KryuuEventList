@@ -4,6 +4,9 @@ namespace KryuuEventList;
 
 return array(
     __NAMESPACE__ => array(
+        'config' => array(
+            'fileupload' => true,
+        ),
     ),
 
     'controllers' => array(
@@ -118,7 +121,6 @@ return array(
         'factories' => array(
             __NAMESPACE__.'\Config'                   => __NAMESPACE__.'\Service\ConfigServiceFactory',
             __NAMESPACE__.'\GlobalConfig'             => __NAMESPACE__.'\Service\GlobalConfigServiceFactory',
-            __NAMESPACE__.'\AddressServiceFactory'    => __NAMESPACE__.'\Service\AddressServiceFactory',
         ),
         'invokables'  => array(
             //'BjyAuthorize\View\RedirectionStrategy' => 'BjyAuthorize\View\RedirectionStrategy',

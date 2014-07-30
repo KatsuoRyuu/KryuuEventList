@@ -95,7 +95,8 @@ class AdminController extends EntityUsingController
             $form->bind($event);
             $form->setData($request->getPost());
             if ($form->isValid()){
-                $event->set($this->storeFile($request->getFiles()), 'image');
+                
+                $event->__set($this->storeFile($request->getFiles()), 'image');
                 $this->entityManager()->persist($event);
                 $this->entityManager()->flush();
             }
@@ -123,6 +124,24 @@ class AdminController extends EntityUsingController
             $this->entityManager()->remove($event);
             $this->entityManager()->flush();
         }
+    }
+    
+    /**
+     * Private Functions
+     * 
+     * @param type $file
+     * @return null
+     */
+
+    private function storeFile($file){
+
+        if (!$this->configuration('fileupload')){
+            return null;
+        }
+
+        $fileRepo = $this->getServiceLocator()->get('FileRepository');
+        $file = $fileRepo->save($file['file']['tmp_name'],$file['file']['name']);
+        return $file;
     }
     
 }

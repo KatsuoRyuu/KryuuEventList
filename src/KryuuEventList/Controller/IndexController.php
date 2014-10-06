@@ -73,6 +73,10 @@ class IndexController extends EntityUsingController
         return new ViewModel();
     }
     
+    public function eventsAction(){
+        
+    }
+    
     /**
      * getting the view for a single event 
      * can be used for child implementation.
